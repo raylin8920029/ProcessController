@@ -29,6 +29,7 @@ class ProcessController(object):
                 process = psutil.Process(process_info[1])
                 process.terminate()
                 print "%s. Stop Process : %s" % (str(process_counter), process_info[0])
+
         print "[Action End]"
 
     @staticmethod
