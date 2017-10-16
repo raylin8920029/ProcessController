@@ -7,7 +7,7 @@ class ProcessController(object):
         self.process_info_list = []
 
     @staticmethod
-    def list_all_process_info_by_tasklist():
+    def list_all_process_info():
         for proc in psutil.process_iter():
             try:
                 pinfo = proc.as_dict(attrs=['pid', 'name'])
@@ -15,6 +15,15 @@ class ProcessController(object):
                 pass
             else:
                 print(pinfo)
+
+    def __create_process_info_list(self):
+        for proc in psutil.process_iter():
+            try:
+                pinfo = proc.as_dict(attrs=['pid', 'name'])
+            except psutil.NoSuchProcess:
+                pass
+            else:
+                self.process_info_list.append([pinfo['name'], pinfo['pid']])
 
     def kill_process_by_name(self, process_name):
         print "Input Process Name : %s" % process_name
@@ -29,15 +38,6 @@ class ProcessController(object):
                 print "%s. Stop Process : %s \n" % (str(process_counter), process_info[0])
                 process = psutil.Process(process_info[1])
                 process.terminate()
-
-    def __create_process_info_list(self):
-        for proc in psutil.process_iter():
-            try:
-                pinfo = proc.as_dict(attrs=['pid', 'name'])
-            except psutil.NoSuchProcess:
-                pass
-            else:
-                self.process_info_list.append([pinfo['name'], pinfo['pid']])
 
 
 def main():
